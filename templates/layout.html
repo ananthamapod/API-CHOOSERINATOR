@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}"/>
+    <title>{% block title %}{% endblock %} - API-Chooserinator</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div id="wrap">
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">API Chooserinator</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <div class="searchbar">
+                <input type="text"/>
+                <a class="search-icon" style="display: inline-block; padding: 0.2em"><i class="glyphicon glyphicon-search"></i></a>
+                <a href="/search/" class="hidden"></a>
+              </div>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+
+      <div id="content">
+        {% block content %}{% endblock %}
+        <div style="margin-top: 1em" class="container">
+          <div id="messages" class="alert alert-info {% if not message %}hidden{% endif %} alert-dismissible" role="alert">{{message}}</div>
+        </div>
+    	</div>
+    </div>
+    <div id="footer">
+      {% block footer %}
+      &copy; Copyright 2015 by <a href="http://ananthamapod.github.io">Ananth Rao</a>.
+      {% endblock %}
+    </div>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var validation = function(input) {
+        if(input === "" || input.indexOf(";") !== -1) {
+          return false;
+        }
+        return true;
+      };
+      var searching = function() {
+        $(".searchbar").addClass("searching");
+        console.log("focusin");
+      };
+
+      var not_searching = function() {
+        $(".searchbar").removeClass("searching");
+        console.log("focusout");
+      };
+
+      var hovering = function() {
+        $(".searchbar").addClass("hovering");
+        console.log("mousein");
+      };
+
+      var not_hovering = function() {
+        $(".searchbar").removeClass("hovering");
+        console.log("mouseout");
+      };
+
+      $(document).ready(function() {
+        $(".searchbar").on("mouseover", hovering);
+        $(".searchbar").on("mouseout", not_hovering);
+        $(".searchbar").on("focusin", searching);
+        $(".searchbar").on("focusout", not_searching);
+
+        $(".searchbar input[type='text']").on("keydown", function(e) {
+          if(e.which == 13) {
+            console.log("enter");
+            $(".searchbar a.search-icon").click();
+          }
+        });
+
+        $('a.search-icon').on("click", function() {
+          console.log("clicked!");
+          var query = $(".searchbar input[type='text']").val();
+          if(validation(query)) {
+            console.log(query);
+            var searchLink = $(".searchbar a.hidden")[0];
+            searchLink.href += query;
+            console.log(searchLink.href);
+            console.log(searchLink);
+            searchLink.click();
+          }
+          else {
+            $("#messages").removeClass("hidden").html("Well, well, well. Looks like someone needs to sanitize their inputs.");
+          }
+        });
+      });
+    </script>
+    {% block scripting %}
+    {% endblock %}
+  </body>
+</html>

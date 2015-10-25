@@ -1,0 +1,200 @@
+/*
+ * Copyright 2015 IBM Corp. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the “License”);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an “AS IS” BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* style.css
+ * This file provides css styles.
+ */
+
+body,html {
+	background-color: #3b4b54; width : 100%;
+	height: 100%;
+	margin: 0 auto;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	color: #ffffff;
+}
+/*Opera Fix*/
+body:before {
+ content:"";
+ height:100%;
+ float:left;
+ width:0;
+ margin-top:-32767px;/
+}
+
+#wrap {
+	min-height: 100%;
+}
+
+#content {
+	padding-top: 50px;
+	overflow:auto;
+	padding-bottom: 3em;
+}  /* must be same height as the footer */
+
+#footer {
+	position: relative;
+	margin-top: -3em; /* negative value of footer height */
+	height: 3em;
+	clear:both;
+	background: #26343F;
+	padding: 0.5em;
+	text-align: center;
+}
+
+nav.navbar.navbar-default.navbar-fixed-top {
+	border-bottom: 0.4em solid #00aed1;
+}
+
+nav.navbar .nav.navbar-nav div.searchbar {
+	border-radius: 1em;
+	background: #eee;
+	padding: 0.2em;
+	margin: 7px auto;
+}
+
+.searchbar input[type="text"] {
+	width:0;
+	display: none;
+	margin-left: 1em;
+	border: none;
+	color: #666;
+	background: transparent;
+	border-bottom: 2px solid #999;
+	margin-bottom: 4px;
+}
+.searchbar input[type="text"]:focus {
+	border: none;
+	border-bottom: 2px solid #00AED1;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+
+}
+.searchbar.hovering input[type="text"], .searchbar.searching input[type="text"] {
+	display: inline;
+	width: 80%;
+	-webkit-transition: width 2s ease-in-out;
+	-moz-transition: width 2s ease-in-out;
+	transition: width 2s ease-in-out;
+}
+
+#content #messages {
+	-webkit-transition: height 1s ease-in-out;
+	-moz-transition: height 1s ease-in-out;
+	transition: height 1s ease-in-out;
+}
+
+
+img.doof {
+	height:auto;
+	width: 100%;
+}
+
+
+div.list-container {
+	background: #BBE4E9;
+	padding: 1em;
+	margin-top: 1em;
+	color: #5585B5;
+}
+
+div.list-container hr {
+	border-color: #688;
+}
+
+div.list-container h1 {
+	font-weight: 400;
+}
+
+ul.list {
+	list-style-type: none;
+	margin: 0;
+	padding: 1em;
+	text-align:left;
+}
+ul.list li {
+	font-size: 1.5em;
+}
+
+a {
+	text-decoration: none;
+	color: #00aed1;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.newappIcon {
+	padding-top: 10%;
+	display: block;
+	margin: 0 auto;
+	padding-bottom: 2em;
+	max-width:200px;
+}
+
+h1 {
+	font-weight: bold;
+	font-size: 2em;
+}
+
+.leftHalf {
+	float: left;
+	background-color: #26343f;
+	width: 45%;
+	height: 100%;
+}
+
+.rightHalf {
+	float: right;
+	width: 55%;
+	background-color: #313f4a;
+	height: 100%;
+	overflow:auto;
+}
+
+.blue {
+	color: #00aed1;
+}
+
+
+table {
+	table-layout: fixed;
+	width: 800px;
+	margin: 0 auto;
+	word-wrap: break-word;
+	padding-top:10%;
+}
+
+th {
+	border-bottom: 1px solid #000;
+}
+
+th, td {
+	text-align: left;
+	padding: 2px 20px;
+}
+
+.env-var {
+	text-align: right;
+	border-right: 1px solid #000;
+	width: 30%;
+}
+
+pre {
+	padding: 0;
+	margin: 0;
+}

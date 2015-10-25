@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}{{action_class_name}} - Action Class{% endblock %}
+{% block content %}
+  <div class="container text-center">
+    <div class="list-container">
+      <h1>{{action_class_name}}</h1>
+      <hr/>
+      <ul class="list">
+        {% for item in apis %}
+        <li><a href="/api/{{item}}">{{item}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
+{% block scripting %}
+{% endblock %}

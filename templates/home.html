@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <div class="container text-center">
+    <div class="jumbotron" style="background: transparent; border: none;">
+      <div class="row">
+        <div class="col-xs-6">
+          <h1>Behold! The API Chooserinator!</h1>
+          <h2>Welcome. Take a look around!</h2>
+          <h3>Search for an API or a data class:</h3>
+          <div class="container">
+            <input id="main-search" style="font-size:2em; margin: 1em 0; color: #666" type="text"/>
+          </div>
+          <div class="container">
+            <input id="main-search-submit" class="btn btn-primary" style="padding: 1em; font-size: 1.5em" type="submit" value="Search"/>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <img class="doof img-responsive" src="{{ url_for('static', filename='images/doof.png') }}">
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block scripting %}
+<script type="text/javascript">
+
+
+
+  $(document).ready(function() {
+    console.log("ready");
+    $("#main-search").on("keydown", function(e) {
+      if(e.which == 13) {
+        console.log("enter");
+        $("#main-search-submit").click();
+      }
+    });
+
+    $("#main-search-submit").on("click", function() {
+      console.log("clicked!");
+      var query = $("#main-search").val();
+      if(validation(query)) {
+        console.log(query);
+        var searchLink = $(".searchbar a.hidden")[0];
+        searchLink.href += query;
+        console.log(searchLink.href);
+        console.log(searchLink);
+        searchLink.click();
+      }
+      else {
+        $("#messages").removeClass("hidden").html("Well, well, well. Looks like someone needs to sanitize their inputs.");
+      }
+    });
+  });
+</script>
+{% endblock %}

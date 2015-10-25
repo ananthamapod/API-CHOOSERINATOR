@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}Add{% endblock %}
+{% block content %}
+  <div class="container text-center">
+    <h2>Got a API you don't see here? Go ahead and add it in!</h2>
+    <hr/>
+    <form method="get" action="">
+      <div class="container">
+        <label for="api_name">API:</label>
+        <input name="api_name" id="api_name" style="font-size:2em; margin: 1em 0; color: #666" type="text"/>
+      </div>
+      <div class="container">
+        <label for="action_class_name">Action Class:</label>
+        <input name="action_class_name" id="action_class_name" style="font-size:2em; margin: 1em 0; color: #666" type="text"/>
+      </div>
+      <div class="container">
+        <input id="add-button" class="btn btn-primary" style="padding: 1em; font-size: 1.5em" type="submit" value="Add to System"/>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+{% block scripting %}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}{{api_name}} - API{% endblock %}
+{% block content %}
+  <div class="container text-center">
+    <div class="list-container">
+      <h1>{{api_name}}</h1>
+      <hr/>
+      <ul class="list">
+        {% for item in actions %}
+        <li><a href="/action/{{item}}">{{item}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
+{% block scripting %}
+{% endblock %}
