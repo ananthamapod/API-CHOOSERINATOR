@@ -42,6 +42,12 @@ else:
 db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
 cursor = db.cursor()
 
+def get_records_from_cursor():
+    def get_record_from_list(elem):
+        return elem[0]
+
+    return map(get_record_from_list, cursor.fetchall())
+
 def validate(input):
     if(input == '' or input.find(";") != -1):
         return False
@@ -50,7 +56,17 @@ def validate(input):
 @app.route('/')
 def Welcome():
 #    return app.send_static_file('index.html')
-    return render_template('home.html')
+    query = """SELECT api_name FROM api ORDER BY RAND() LIMIT 5"""
+    cursor.execute(query)
+    db.commit()
+    apis = get_records_from_cursor()
+
+    query = """SELECT action_class_name FROM action_class ORDER BY RAND() LIMIT 5"""
+    cursor.execute(query)
+    db.commit()
+    actions = get_records_from_cursor()
+
+    return render_template('home.html', apis=apis, actions=actions)
 
 def exists(query):
     print query
@@ -58,7 +74,7 @@ def exists(query):
     db.commit()
     return int(cursor.rowcount) > 0
 
-@app.route('/api/add', methods=["GET"])
+@app.route('/add', methods=["GET"])
 def add():
     api_name = request.args.get("api_name")
     action_class_name = request.args.get("action_class_name")
@@ -120,13 +136,9 @@ def api(name):
             cursor.execute(query)
             db.commit()
 
-            value = cursor.fetchall()
-            returns = []
+            actions = get_records_from_cursor()
 
-            for i in value:
-                returns.append(i[0])
-
-            return render_template('api.html', api_name=name, actions=returns)
+            return render_template('api.html', api_name=name, results=actions)
 
     return render_template('home.html')
 
@@ -153,13 +165,9 @@ def action(name):
             cursor.execute(query)
             db.commit()
 
-            value = cursor.fetchall()
-            returns = []
+            apis = get_records_from_cursor()
 
-            for i in value:
-                returns.append(i[0])
-
-            return render_template('action.html', action_class_name=name, apis=returns)
+            return render_template('action.html', action_class_name=name, results=apis)
 
     return render_template('home.html')
 
@@ -180,7 +188,7 @@ def search(searchString):
         if exists(query):
             return api(searchString)
 
-        message = "Sorry, invalid API or action class. If you think the API or action class should exist in our system, feel free to <a href='/api/add'>add it as a connection</a> to one of our existing APIs/action classes. Or open up an issue on our Github repository!"
+        message = "Sorry, invalid API or action class. If you think the API or action class should exist in our system, feel free to add it as a connection to one of our existing APIs/action classes using the handy dandy plus button up top. Or open up an issue on our Github repository!"
         return render_template('home.html', message=message)
 
 @app.errorhandler(404)

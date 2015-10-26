@@ -58,7 +58,7 @@ nav.navbar.navbar-default.navbar-fixed-top {
 	border-bottom: 0.4em solid #00aed1;
 }
 
-nav.navbar .nav.navbar-nav div.searchbar {
+nav.navbar .nav.navbar-nav .searchbar, nav.navbar .nav.navbar-nav .addbar {
 	border-radius: 1em;
 	background: #eee;
 	padding: 0.2em;
@@ -95,6 +95,12 @@ nav.navbar .nav.navbar-nav div.searchbar {
 	-webkit-transition: height 1s ease-in-out;
 	-moz-transition: height 1s ease-in-out;
 	transition: height 1s ease-in-out;
+}
+
+.showcase {
+	background: #000;
+	text-align: center;
+	padding-bottom: 2em;
 }
 
 
