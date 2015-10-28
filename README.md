@@ -27,4 +27,4 @@ This is a collaborative database. The point is to be able to add, so to that end
 
 ## Licensing
 
-* See [LICENSE](LICENSE.md)
+* See [LICENSE](LICENSE)

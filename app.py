@@ -13,12 +13,9 @@
 # limitations under the License.
 
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import MySQLdb
-from flask import render_template
 import json
-
-# mysql.connector functionality used with help from @jayr13's repository njit-course-scraper
 
 app = Flask(__name__)
 appContext = app.app_context()
@@ -57,9 +54,14 @@ def validate(input):
 
 @app.route('/')
 def Welcome():
+    global cursor
+    global db
     query = """SELECT api_name FROM api ORDER BY RAND() LIMIT 5"""
-    db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
-    cursor = db.cursor()
+    try:
+        db.ping()
+    except (AttributeError, MySQLdb.OperationalError):
+        db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+        cursor = db.cursor()
     cursor.execute(query)
     db.commit()
     apis = get_records_from_cursor(cursor)
@@ -72,15 +74,22 @@ def Welcome():
     return render_template('home.html', apis=apis, actions=actions)
 
 def exists(query):
+    global cursor
+    global db
     print query
-    db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
-    cursor = db.cursor()
+    try:
+        db.ping()
+    except (AttributeError, MySQLdb.OperationalError):
+        db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+        cursor = db.cursor()
     cursor.execute(query)
     db.commit()
     return int(cursor.rowcount) > 0
 
 @app.route('/add', methods=["GET"])
 def add():
+    global cursor
+    global db
     api_name = request.args.get("api_name")
     action_class_name = request.args.get("action_class_name")
     print api_name
@@ -99,8 +108,11 @@ def add():
             if(not exists(query1)):
                 query = """INSERT INTO api (api_name) VALUES (%s%s%s)""" % ('\'',api_name,'\'')
                 print query
-                db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
-                cursor = db.cursor()
+                try:
+                    db.ping()
+                except (AttributeError, MySQLdb.OperationalError):
+                    db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+                    cursor = db.cursor()
                 cursor.execute(query)
                 db.commit()
             if(not exists(query2)):
@@ -125,6 +137,8 @@ def add():
 
 @app.route('/api/<name>')
 def api(name):
+    global cursor
+    global db
     if validate(name):
         query = """SELECT *
             FROM api
@@ -143,8 +157,11 @@ def api(name):
                 );
             """ % ('\'',name,'\'')
 
-            db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
-            cursor = db.cursor()
+            try:
+                db.ping()
+            except (AttributeError, MySQLdb.OperationalError):
+                db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+                cursor = db.cursor()
             cursor.execute(query)
             db.commit()
 
@@ -156,6 +173,8 @@ def api(name):
 
 @app.route('/action/<name>')
 def action(name):
+    global cursor
+    global db
     if validate(name):
         query = """SELECT *
             FROM action_class
@@ -174,6 +193,11 @@ def action(name):
                 );
             """ % ('\'',name,'\'')
 
+            try:
+                db.ping()
+            except (AttributeError, MySQLdb.OperationalError):
+                db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+                cursor = db.cursor()
             cursor.execute(query)
             db.commit()
 
