@@ -102,6 +102,12 @@ nav.navbar .nav.navbar-nav .searchbar, nav.navbar .nav.navbar-nav .addbar {
 	text-align: center;
 	padding-bottom: 2em;
 }
+.showcase h2 {
+	color: #5298CD;
+}
+.showcase hr {
+	border-color: #808080;
+}
 
 
 img.doof {

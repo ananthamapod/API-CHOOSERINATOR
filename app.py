@@ -16,21 +16,22 @@ import os
 from flask import Flask, jsonify, request
 import MySQLdb
 from flask import render_template
+import json
 
 # mysql.connector functionality used with help from @jayr13's repository njit-course-scraper
 
 app = Flask(__name__)
-
+appContext = app.app_context()
 if 'VCAP_SERVICES' in os.environ:
     # bluemix database setup
-    vcap_services = os.environ['VCAP_SERVICES'];
-    mysql_info = vcap_services['mysql-5.1'][0]
-    cred = mysql_info['credentials']
+    vcap_services = json.loads(os.environ['VCAP_SERVICES'])
+    mysql_info = vcap_services[u'cleardb'][0]
+    cred = mysql_info[u'credentials']
 
-    host = cred['host'].encode('utf8')
-    dbusername = cred['user'].encode('utf8')
-    dbpassword = cred['password'].encode('utf8')
-    dbname = cred['name'].encode('utf8')
+    host = cred[u'hostname'].encode('utf8')
+    dbusername = cred[u'username'].encode('utf8')
+    dbpassword = cred[u'password'].encode('utf8')
+    dbname = cred[u'name'].encode('utf8')
 else:
     # local database setup
     host = "localhost"
@@ -41,6 +42,7 @@ else:
 # establish MySQL connection
 db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
 cursor = db.cursor()
+
 
 def get_records_from_cursor():
     def get_record_from_list(elem):
@@ -55,7 +57,6 @@ def validate(input):
 
 @app.route('/')
 def Welcome():
-#    return app.send_static_file('index.html')
     query = """SELECT api_name FROM api ORDER BY RAND() LIMIT 5"""
     cursor.execute(query)
     db.commit()
