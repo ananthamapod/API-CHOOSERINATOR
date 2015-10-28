@@ -23,8 +23,8 @@ This is a collaborative database. The point is to be able to add, so to that end
 
 ## Contributing changes
 
-* Completely open source. Add an issue, submit a pull request, and together we can make the API-Chooserinator an awesome tool for hackathon hackers everywhere. Keeping the name not mandatory.
+Completely open source. Add an issue, submit a pull request, and together we can make the API-Chooserinator an awesome tool for hackathon hackers everywhere. Keeping the name not mandatory.
 
 ## Licensing
 
-* See [LICENSE](LICENSE.md)
+See [LICENSE](LICENSE.md)
