@@ -44,7 +44,7 @@ db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = d
 cursor = db.cursor()
 
 
-def get_records_from_cursor():
+def get_records_from_cursor(cursor):
     def get_record_from_list(elem):
         return elem[0]
 
@@ -58,19 +58,23 @@ def validate(input):
 @app.route('/')
 def Welcome():
     query = """SELECT api_name FROM api ORDER BY RAND() LIMIT 5"""
+    db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+    cursor = db.cursor()
     cursor.execute(query)
     db.commit()
-    apis = get_records_from_cursor()
+    apis = get_records_from_cursor(cursor)
 
     query = """SELECT action_class_name FROM action_class ORDER BY RAND() LIMIT 5"""
     cursor.execute(query)
     db.commit()
-    actions = get_records_from_cursor()
+    actions = get_records_from_cursor(cursor)
 
     return render_template('home.html', apis=apis, actions=actions)
 
 def exists(query):
     print query
+    db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+    cursor = db.cursor()
     cursor.execute(query)
     db.commit()
     return int(cursor.rowcount) > 0
@@ -83,6 +87,7 @@ def add():
 
     if(api_name and action_class_name):
         if(validate(api_name) and validate(action_class_name)):
+
             query1 = """SELECT *
                 FROM api
                 WHERE api_name = %s%s%s""" % ('\'',api_name,'\'')
@@ -94,10 +99,14 @@ def add():
             if(not exists(query1)):
                 query = """INSERT INTO api (api_name) VALUES (%s%s%s)""" % ('\'',api_name,'\'')
                 print query
+                db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+                cursor = db.cursor()
                 cursor.execute(query)
                 db.commit()
             if(not exists(query2)):
                 query = """INSERT INTO action_class (action_class_name) VALUES (%s%s%s)""" % ('\'',action_class_name,'\'')
+                db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+                cursor = db.cursor()
                 cursor.execute(query)
                 db.commit()
 
@@ -134,10 +143,12 @@ def api(name):
                 );
             """ % ('\'',name,'\'')
 
+            db = MySQLdb.connect(user = dbusername, passwd = dbpassword, host = host, db = dbname)
+            cursor = db.cursor()
             cursor.execute(query)
             db.commit()
 
-            actions = get_records_from_cursor()
+            actions = get_records_from_cursor(cursor)
 
             return render_template('api.html', api_name=name, results=actions)
 
@@ -166,7 +177,7 @@ def action(name):
             cursor.execute(query)
             db.commit()
 
-            apis = get_records_from_cursor()
+            apis = get_records_from_cursor(cursor)
 
             return render_template('action.html', action_class_name=name, results=apis)
 
