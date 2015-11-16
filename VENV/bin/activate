@@ -39,7 +39,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/ananth/Workspace/API-Chooserinator/VENV"
+VIRTUAL_ENV="/Users/jayrav13/Sites/API-CHOOSERINATOR/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
